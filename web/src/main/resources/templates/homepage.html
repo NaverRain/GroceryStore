@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <title>Shop Homepage - Start Bootstrap Template</title>
+
+        <div th:replace="~{fragments/homepage-css-imports.html}"></div>
+    </head>
+    <body>
+
+    <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shop in style</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
+                </div>
+            </div>
+        </header>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/homepage-js-imports.html}"></div>
+    </body>
+</html>

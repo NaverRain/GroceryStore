@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Correct reference to CSS -->
+    <link href="/css/404styles.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Page</title>
+</head>
+<body>
+<div class="container">
+    <div class="copy-container center-xy">
+        <p>
+            Error: <span th:text="${errorCode}">Error</span>
+        </p>
+        <p th:text="${errorMessage}">Error details</p>
+        <span class="handle"></span>
+        <div class="link-container">
+            <a href="#" th:href="@{/}" class="more-link">Go to Homepage</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

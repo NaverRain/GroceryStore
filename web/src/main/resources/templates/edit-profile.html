@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <div th:replace="~{fragments/login-css-imports.html}"></div>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Edit Profile</h1>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+
+            <form th:action="@{/profile/update}" method="post" enctype="multipart/form-data">
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName" th:value="${user.firstName}" required>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName" th:value="${user.lastName}" required>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <label>Username:</label>
+                    <input type="text" name="username" th:value="${user.username}" required>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <label>Email:</label>
+                    <input type="email" name="email" th:value="${user.email}" required>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <label>Password:</label>
+                    <input type="password" name="password">
+                </div>
+
+                <label>Profile Picture:</label>
+                <input type="file" name="profilePicture">
+
+                <button type="submit">Save</button>
+                <a th:href="@{/profile}">Cancel</a> <!-- Link back to the profile page -->
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/login-js-imports.html}"></div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+rootProject.name = 'grocery'
+include 'core'
+include 'persistence'
+include 'web'
+

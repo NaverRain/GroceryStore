@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" th:href="@{/products}">All Products</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" th:href="@{/popular}">Popular Items</a></li>
+              <li><a class="dropdown-item" th:href="@{/new-arrivals}">New Arrivals</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex me-3">
+          <button class="btn btn-outline-dark" type="submit">
+            <i class="bi-cart-fill me-1"></i>
+            Cart
+            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+          </button>
+        </form>
+        <div class="d-flex">
+          <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-primary me-2">Log In</a>
+          <a sec:authorize="!isAuthenticated()" th:href="@{/registration}" class="btn btn-primary">Register account</a>
+          <a sec:authorize="isAuthenticated()" th:href="@{/profile}" class="btn btn-outline-primary me-2">
+            Welcome, <span sec:authentication="name"></span>
+          </a>
+          <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="display: inline;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="btn btn-primary">Sign Out</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+</th:block>
+</html>

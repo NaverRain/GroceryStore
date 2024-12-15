@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <div th:replace="~{fragments/homepage-css-imports.html}"></div>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Profile</h1>
+
+<div>
+    <h3>First Name: <span th:text="${user.firstName}"></span></h3>
+    <h3>Last Name: <span th:text="${user.lastName}"></span></h3>
+    <h3>Username: <span th:text="${user.username}"></span></h3>
+    <h3>Email: <span th:text="${user.email}"></span></h3>
+</div>
+
+<a th:href="@{/profile/edit}">Edit Profile</a>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/login-js-imports.html}"></div>
+</body>
+</html>
