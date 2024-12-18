@@ -45,6 +45,16 @@ public class UserDto {
     // Getters and Setters
 
 
+    public UserDto() {
+    }
+
+    public UserDto(String firstName, String lastName, String username, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }

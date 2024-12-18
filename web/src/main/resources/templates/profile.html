@@ -11,10 +11,10 @@
 <h1>Profile</h1>
 
 <div>
-    <h3>First Name: <span th:text="${user.firstName}"></span></h3>
-    <h3>Last Name: <span th:text="${user.lastName}"></span></h3>
-    <h3>Username: <span th:text="${user.username}"></span></h3>
-    <h3>Email: <span th:text="${user.email}"></span></h3>
+    <h3>First Name: <span th:text="${user.firstName ?: 'N/A'}"></span></h3>
+    <h3>Last Name: <span th:text="${user.lastName ?: 'N/A'}"></span></h3>
+    <h3>Username: <span th:text="${user.username ?: 'N/A'}"></span></h3>
+    <h3>Email: <span th:text="${user.email ?: 'N/A'}"></span></h3>
 </div>
 
 <a th:href="@{/profile/edit}">Edit Profile</a>
