@@ -11,20 +11,28 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
-
-    implementation 'org.postgresql:postgresql:42.6.2'
 
     implementation 'org.projectlombok:lombok:1.18.36'
     implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
 
+    // OAUTH
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
 
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+
+    // Database
+    implementation 'org.postgresql:postgresql:42.6.2'
 
     // Module dependency
     implementation project(':core')
     implementation project(':persistence')
 
+    // Test
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

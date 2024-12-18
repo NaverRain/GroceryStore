@@ -35,3 +35,70 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+# IntelliJ IDEA specific files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Maven specific files
+target/
+*.log
+*.gz
+*.war
+*.ear
+
+# Gradle specific files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.properties
+**/build/
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Java specific files
+*.class
+
+# Bytecode and temporary files
+*.swp
+*.swo
+*.tmp
+
+# Spring Boot properties
+.properties
+.yml
+web/src/main/resources/application.properties
+
+# Environment files
+.env
+
+# Other IDEs
+*.idea_modules/
+*.vscode/
+
+# Ignore generated .jar and .class files
+*.jar
+*.class
+
+# Ignore compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore database files
+*.db
+
+# Ignore temporary files
+*.out
+*.bak
+*.backup
+*.orig

@@ -1,4 +1,4 @@
-package com.naverrain.grocery.web.handler;
+package com.naverrain.grocery.web.service;
 
 import com.naverrain.grocery.core.dto.PrivilegeDto;
 import com.naverrain.grocery.core.dto.UserDto;

@@ -1,17 +1,15 @@
 package com.naverrain.grocery.web.config;
 
-import com.naverrain.grocery.web.handler.DefaultAuthenticationSuccessHandler;
+import com.naverrain.grocery.web.handler.CustomOAuth2AuthenticationSuccessHandler;
+import com.naverrain.grocery.web.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandlerImpl;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -26,9 +24,11 @@ public class SecurityConfig {
             "/admin", "/manager", "/profile", "/profile/**", "/edit-profile", "/edit-profile/**"
     };
 
-    private final DefaultAuthenticationSuccessHandler successHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2AuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(DefaultAuthenticationSuccessHandler successHandler) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomOAuth2AuthenticationSuccessHandler successHandler) {
+        this.customOAuth2UserService = customOAuth2UserService;
         this.successHandler = successHandler;
     }
 
@@ -41,6 +41,13 @@ public class SecurityConfig {
                         .requestMatchers("/manager").hasAuthority("WRITE")
                         .requestMatchers("/profile", "/profile/**", "/edit-profile", "/edit-profile/**").authenticated()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(successHandler)
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -57,8 +64,9 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedHandler(new AccessDeniedHandlerImpl())
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/errorpage");
+                        })
                 )
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         return security.build();
@@ -68,6 +76,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 
 }
