@@ -1,6 +1,6 @@
 package com.naverrain.grocery.core.utils.impl;
 
-import com.naverrain.grocery.core.dto.UserDto;
+import com.naverrain.grocery.core.dto.user.UserDto;
 import com.naverrain.grocery.core.utils.PasswordMatches;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

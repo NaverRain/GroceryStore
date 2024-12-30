@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="category-list">
+  <div class="row category-grid">
+    <div class="col-md-3 col-sm-6" th:each="category : ${categories}">
+      <a th:href="@{/category/{id}(id=${category.id})}">
+        <div class="category-card">
+          <img th:src="${category.imageUrl}" alt="Category Image" class="img-fluid">
+          <h5 class="category-name" th:text="${category.name}"></h5>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
