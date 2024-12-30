@@ -1,8 +1,8 @@
 package com.naverrain.grocery.web.service;
 
-import com.naverrain.grocery.core.dto.PrivilegeDto;
-import com.naverrain.grocery.core.dto.UserDto;
-import com.naverrain.grocery.core.service.UserService;
+import com.naverrain.grocery.core.dto.user.PrivilegeDto;
+import com.naverrain.grocery.core.dto.user.UserDto;
+import com.naverrain.grocery.core.service.user.UserService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,10 +23,15 @@ public class DefaultUserDetailsService implements UserDetailsService {
         UserDto userDto = userService.getUserByUsernameOrEmail(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail));
 
-        System.out.println("Encoded password from DB: " + userDto.getPassword());
+        System.out.println("User fetched: " + userDto);
+        System.out.println("Encoded password: " + userDto.getPassword());
 
-        return User
-                .builder()
+        if (userDto.getPassword() == null) {
+            throw new IllegalStateException("Password is null for user: " + usernameOrEmail);
+        }
+
+
+        return User.builder()
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
                 .authorities(userDto.getRoles().stream()
@@ -36,7 +41,8 @@ public class DefaultUserDetailsService implements UserDetailsService {
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
-                .disabled(!userDto.getEnabled())
+                .disabled(!userDto.isEnabled())
                 .build();
     }
+
 }

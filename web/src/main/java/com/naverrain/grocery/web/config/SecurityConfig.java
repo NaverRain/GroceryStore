@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/", "/login", "/registration", "/css/**", "/js/**", "/assets/**", "/fonts/**", "/images/**", "/vendor/**"
+            "/", "/login", "/category-list", "/product/**", "/product", "/category", "/category/**","/registration", "/css/**", "/js/**", "/assets/**", "/fonts/**", "/images/**", "/vendor/**"
     };
 
     private static final String[] AUTHENTICATED_MATCHERS = {
@@ -67,6 +67,9 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendRedirect("/errorpage");
                         })
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/perform_login", "/api/**")
                 )
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         return security.build();

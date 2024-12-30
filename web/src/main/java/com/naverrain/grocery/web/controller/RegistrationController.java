@@ -1,8 +1,8 @@
 package com.naverrain.grocery.web.controller;
 
 
-import com.naverrain.grocery.core.dto.UserDto;
-import com.naverrain.grocery.core.service.UserService;
+import com.naverrain.grocery.core.dto.user.UserDto;
+import com.naverrain.grocery.core.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("userDto", new UserDto()); // Ensure attribute matches form
+        model.addAttribute("userDto", new UserDto());
         return "registration";
     }
 
@@ -36,9 +36,14 @@ public class RegistrationController {
     public String registerUser(@Valid @ModelAttribute("userDto") UserDto userDto,
                                BindingResult bindingResult,
                                Model model) {
+        if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+            bindingResult.rejectValue("repeatPassword", "error.userDto", "Passwords do not match!");
+        }
+
         if (bindingResult.hasErrors()) {
             return "registration";
         }
+
         try {
             userService.registerUser(userDto, defaultRole);
         } catch (IllegalArgumentException e) {

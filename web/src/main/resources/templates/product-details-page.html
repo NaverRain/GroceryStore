@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Product List</title>
+    <div th:replace="~{fragments/homepage-css-imports.html}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container mt-4">
+    <h2 class="text-center">Products</h2>
+    <a th:href="@{/product/{guid}(guid=${product.guid})}">
+        <img th:src="${product.imageUrl}" alt="Product Image" class="img-fluid">
+        <h5 class="product-name" th:text="${product.name}"></h5>
+        <h5 class="product-description" th:text="${product.description}"></h5>
+        <h5 class="product-quantity" th:text="${product.quantity}"></h5>
+        <h5 class="product-price" th:text="${product.price}"></h5>
+    </a>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/homepage-js-imports.html}"></div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.naverrain.grocery.web.controller;
 
-import com.naverrain.grocery.core.dto.UserDto;
-import com.naverrain.grocery.core.service.UserService;
+import com.naverrain.grocery.core.dto.user.UserDto;
+import com.naverrain.grocery.core.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
