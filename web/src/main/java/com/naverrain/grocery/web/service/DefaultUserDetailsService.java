@@ -23,21 +23,21 @@ public class DefaultUserDetailsService implements UserDetailsService {
         UserDto userDto = userService.getUserByUsernameOrEmail(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail));
 
-        System.out.println("User fetched: " + userDto);
-        System.out.println("Encoded password: " + userDto.getPassword());
-
         if (userDto.getPassword() == null) {
             throw new IllegalStateException("Password is null for user: " + usernameOrEmail);
         }
 
+        String[] authorities = userDto.getRoles().stream()
+                .flatMap(role -> role.getPrivileges().stream())
+                .map(PrivilegeDto::getName)
+                .filter(name -> name != null && !name.isBlank())
+                .distinct()
+                .toArray(String[]::new);
 
         return User.builder()
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
-                .authorities(userDto.getRoles().stream()
-                        .flatMap(role -> role.getPrivileges().stream())
-                        .map(PrivilegeDto::getName)
-                        .toArray(String[]::new))
+                .authorities(authorities)
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)

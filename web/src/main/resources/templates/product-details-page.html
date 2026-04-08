@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Product List</title>
+    <title th:text="${product.name}">Product Details</title>
     <div th:replace="~{fragments/homepage-css-imports.html}"></div>
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
+
 <div class="container mt-4">
-    <h2 class="text-center">Products</h2>
-    <a th:href="@{/product/{guid}(guid=${product.guid})}">
-        <img th:src="${product.imageUrl}" alt="Product Image" class="img-fluid">
-        <h5 class="product-name" th:text="${product.name}"></h5>
-        <h5 class="product-description" th:text="${product.description}"></h5>
-        <h5 class="product-quantity" th:text="${product.quantity}"></h5>
-        <h5 class="product-price" th:text="${product.price}"></h5>
-    </a>
+    <div class="product-details-container">
+        <!-- Image Section -->
+        <div class="product-details-image">
+            <img th:src="${product.imageUrl}" alt="Product Image" class="img-fluid rounded">
+        </div>
+
+        <!-- Info Section -->
+        <div class="product-details-info">
+            <h1 class="mb-3" th:text="${product.name}">Product Name</h1>
+            <div class="product-price mb-2">Price: $<span th:text="${product.price}">0.00</span></div>
+            <div class="product-quantity mb-3">Availability: <span th:text="${product.quantity}">0</span> in stock</div>
+            <div class="product-description-container">
+                <h5 class="fw-bold">Description:</h5>
+                <p class="product-description" th:text="${product.description}">Product description goes here.</p>
+            </div>
+            
+            <!-- Optional Actions -->
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg px-4 me-md-2">Add to Cart</button>
+                <button class="btn btn-outline-secondary btn-lg px-4">Back to List</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/homepage-js-imports.html}"></div>
 </body>

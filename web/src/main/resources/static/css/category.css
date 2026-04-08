@@ -20,9 +20,9 @@
 }
 
 .category-card img {
-    width: 250px; /* Set desired width */
-    height: 250px; /* Set desired height */
-    object-fit: cover; /* Ensures the image is cropped proportionally */
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
     margin-bottom: 10px;
     border-radius: 5px;
 }

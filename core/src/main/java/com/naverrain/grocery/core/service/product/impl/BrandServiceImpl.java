@@ -6,11 +6,12 @@ import com.naverrain.grocery.core.service.product.BrandService;
 import com.naverrain.grocery.core.utils.ResourceNotFoundException;
 import com.naverrain.grocery.persistence.entity.product.Brand;
 import com.naverrain.grocery.persistence.repository.product.BrandRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,42 +26,73 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandDto createBrand(BrandDto brandDto) {
-        Brand brand = brandMapper.toEntity(brandDto);
+    public BrandDto create(BrandDto dto) {
+        if (brandRepository.existsByNameIgnoreCase(dto.getName())){
+            throw new IllegalArgumentException("Brand already exists");
+        }
+
+        Brand brand = brandMapper.toEntity(dto);
+        brand.setId(null);
+        brand.setVersion(null);
+
         Brand savedBrand = brandRepository.save(brand);
         return brandMapper.toDto(savedBrand);
     }
 
     @Override
-    public BrandDto getBrandById(Long id) {
-        Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Brand not found with ID: " + id));
-        return brandMapper.toDto(brand);
-    }
-
-    @Override
-    public List<BrandDto> getAllBrands() {
-        return brandRepository.findAll()
-                .stream()
+    @Transactional(readOnly = true)
+    public BrandDto getById(Long id) {
+        return brandRepository.findById(id)
                 .map(brandMapper::toDto)
-                .collect(Collectors.toList());
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found with ID: " + id));
     }
 
     @Override
-    public BrandDto updateBrand(Long id, BrandDto brandDto) {
+    @Transactional(readOnly = true)
+    public Page<BrandDto> getAll(Pageable pageable) {
+        return brandRepository.findAll(pageable)
+                .map(brandMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<BrandDto> searchByName(String name, Pageable pageable) {
+        return brandRepository.findByNameContainingIgnoreCase(name, pageable)
+                .map(brandMapper::toDto);
+    }
+
+    @Override
+    public BrandDto update(Long id, BrandDto dto) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found with ID: " + id));
-        brand.setName(brandDto.getName());
-        brand.setDescription(brandDto.getDescription());
-        Brand updatedBrand = brandRepository.save(brand);
-        return brandMapper.toDto(updatedBrand);
+
+        if (dto.getVersion() != null && !Objects.equals(dto.getVersion(), brand.getVersion())) {
+            throw new IllegalStateException("Brand was modified by another operation. Please refresh and try again.");
+        }
+
+        if (!brand.getName().equalsIgnoreCase(dto.getName())
+                && brandRepository.existsByNameIgnoreCase(dto.getName())){
+            throw new IllegalArgumentException("Brand already exists");
+        }
+
+        brand.setName(dto.getName());
+        brand.setDescription(dto.getDescription());
+        brand.setImageUrl(dto.getImageUrl());
+
+        Brand saved = brandRepository.save(brand);
+        return brandMapper.toDto(saved);
     }
 
     @Override
-    public void deleteBrand(Long id) {
+    public void delete(Long id) {
         if (!brandRepository.existsById(id)) {
             throw new ResourceNotFoundException("Brand not found with ID: " + id);
         }
         brandRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByNameIgnoreCase(String name) {
+        return brandRepository.existsByNameIgnoreCase(name);
     }
 }

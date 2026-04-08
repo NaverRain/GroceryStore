@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Categories</title>
+  <div th:replace="~{fragments/homepage-css-imports.html}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-5">Our Categories</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" th:each="category : ${categories}">
+      <div class="card h-100 shadow-sm">
+        <img th:src="${category.imageUrl}" class="product-card-img rounded-top" th:alt="${category.name}">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold" th:text="${category.name}">Category Name</h5>
+          <p class="card-text text-truncate mb-3" th:text="${category.description}">Category description...</p>
+          <div class="mt-auto">
+            <a th:href="@{/categories/{id}/subcategories(id=${category.id})}" class="btn btn-primary w-100">View Subcategories</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div th:if="${pages > 1}" th:replace="~{fragments/pagination :: pagination(${basePath})}"></div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/homepage-js-imports.html}"></div>
+</body>
+</html>

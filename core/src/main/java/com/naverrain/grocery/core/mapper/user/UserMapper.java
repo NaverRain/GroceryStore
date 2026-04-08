@@ -4,6 +4,7 @@ import com.naverrain.grocery.core.dto.user.UserDto;
 import com.naverrain.grocery.persistence.entity.user.User;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,11 +26,15 @@ public class UserMapper {
         user.setEmail(dto.getEmail());
         user.setMoney(dto.getMoney());
         user.setPassword(dto.getPassword());
-        user.setRoles(
-                dto.getRoles().stream()
-                        .map(roleMapper::toEntity)
-                        .collect(Collectors.toSet())
-        );
+        if (dto.getRoles() == null || dto.getRoles().isEmpty()) {
+            user.setRoles(new HashSet<>());
+        } else {
+            user.setRoles(
+                    dto.getRoles().stream()
+                            .map(roleMapper::toEntity)
+                            .collect(Collectors.toSet())
+            );
+        }
         user.setEnabled(dto.isEnabled());
         return user;
     }

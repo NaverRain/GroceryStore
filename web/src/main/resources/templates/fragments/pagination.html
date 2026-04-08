@@ -1,18 +1,34 @@
-<nav th:fragment="pagination" aria-label="Product Pagination">
+<nav th:fragment="pagination(basePath)" th:with="q=${queryString ?: ''}" aria-label="Pagination">
     <ul class="pagination justify-content-center">
-        <!-- Previous Page -->
+
+        <!-- Previous -->
         <li class="page-item" th:classappend="${activePage == 1} ? 'disabled'">
-            <a class="page-link" th:href="@{/category/{id}(id=${categoryId}, page=${activePage - 1})}">Previous</a>
+            <a class="page-link shadow-none"
+               th:href="@{${basePath} + '?page=' + (${activePage - 2}) + ${q}}">
+                Previous
+            </a>
         </li>
 
-        <!-- Page Numbers -->
-        <li class="page-item" th:each="page : ${pages}" th:classappend="${page == activePage} ? 'active'">
-            <a class="page-link" th:href="@{/category/{id}(id=${categoryId}, page=${page})}" th:text="${page}"></a>
+        <!-- Numbers -->
+        <li class="page-item"
+            th:each="pageNum : ${#numbers.sequence(1, pages)}"
+            th:classappend="${pageNum == activePage} ? 'active'">
+
+            <a class="page-link shadow-none"
+               th:href="@{${basePath} + '?page=' + (${pageNum - 1}) + ${q}}"
+               th:text="${pageNum}">
+            </a>
         </li>
 
-        <!-- Next Page -->
-        <li class="page-item" th:classappend="${activePage == pages.size()} ? 'disabled'">
-            <a class="page-link" th:href="@{/category/{id}(id=${categoryId}, page=${activePage + 1})}">Next</a>
+        <!-- Next -->
+        <li class="page-item"
+            th:classappend="${activePage == pages} ? 'disabled'">
+
+            <a class="page-link shadow-none"
+               th:href="@{${basePath} + '?page=' + ${activePage} + ${q}}">
+                Next
+            </a>
         </li>
+
     </ul>
 </nav>

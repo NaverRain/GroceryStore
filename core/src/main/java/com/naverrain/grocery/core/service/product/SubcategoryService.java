@@ -1,22 +1,18 @@
 package com.naverrain.grocery.core.service.product;
 
 import com.naverrain.grocery.core.dto.product.SubcategoryDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface SubcategoryService {
+    SubcategoryDto create(SubcategoryDto dto);
+    SubcategoryDto getById(Long id);
 
-    SubcategoryDto createSubcategory(SubcategoryDto subcategoryDto);
+    Page<SubcategoryDto> getAll(Pageable pageable);
+    Page<SubcategoryDto> getByCategory(Long categoryId, Pageable pageable);
 
-    SubcategoryDto getSubcategoryById(Long id);
+    SubcategoryDto update(Long id, SubcategoryDto dto);
+    void delete(Long id);
 
-    List<SubcategoryDto> getAllSubcategories();
-
-    List<SubcategoryDto> getSubcategoriesByCategory(Long categoryId);
-
-    SubcategoryDto updateSubcategory(Long id, SubcategoryDto subcategoryDto);
-
-    void deleteSubcategory(Long id);
-
-    boolean subcategoryExistsByName(String name);
+    boolean existsByName(String name);
 }

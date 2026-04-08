@@ -66,7 +66,9 @@ public class RoleServiceImpl implements RoleService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
 
         List<Privilege> privileges = privilegeRepository.findAllById(privilegeIds);
-        role.getPrivileges().addAll(privileges);
+        for (Privilege privilege : privileges) {
+            role.addPrivilege(privilege);
+        }
 
         return roleMapper.toDto(roleRepository.save(role));
     }

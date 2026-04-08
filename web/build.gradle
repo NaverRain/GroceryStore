@@ -7,6 +7,14 @@ plugins {
 group = 'com.naverrain'
 version = '0.0.1-SNAPSHOT'
 
+springBoot {
+    mainClass = 'com.naverrain.grocery.web.GroceryApplication'
+}
+
+bootJar {
+    enabled = true
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -17,13 +25,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
 
-    implementation 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
     implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
 
     // OAUTH
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-
     implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 
     // Database
@@ -32,7 +40,6 @@ dependencies {
     implementation 'com.cloudinary:cloudinary-taglib:2.0.0'
     implementation 'com.cloudinary:cloudinary-http5:2.0.0'
     implementation 'io.github.cdimascio:dotenv-java:2.2.4'
-
 
     // Module dependency
     implementation project(':core')

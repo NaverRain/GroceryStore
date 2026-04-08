@@ -3,9 +3,12 @@ package com.naverrain.grocery.web;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
+import com.naverrain.grocery.web.config.HomepageProperties;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication(scanBasePackages = "com.naverrain.grocery")
+@EnableConfigurationProperties(HomepageProperties.class)
 public class GroceryApplication {
 	public static void main(String[] args) {
 

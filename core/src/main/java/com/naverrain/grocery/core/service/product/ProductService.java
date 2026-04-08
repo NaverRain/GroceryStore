@@ -1,31 +1,33 @@
 package com.naverrain.grocery.core.service.product;
 
 import com.naverrain.grocery.core.dto.product.ProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
+    ProductDto create(ProductDto dto);
+    ProductDto getById(Long id);
+    ProductDto getByGuid(UUID guid);
 
-    List<ProductDto> getAllProducts();
+    List<ProductDto> listForHomepage(int maxResults);
 
-    List<ProductDto> getProductsLikeName(String searchQuery);
+    Page<ProductDto> getAll(Pageable pageable);
+    
+    Page<ProductDto> getAllFiltered(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable);
+    
+    Page<ProductDto> searchByName(String searchQuery, Pageable pageable);
 
-    List<ProductDto> getProductsByCategoryId(Long categoryId);
+    Page<ProductDto> getByCategory(Long categoryId, Pageable pageable);
+    Page<ProductDto> getBySubcategory(Long subcategoryId, Pageable pageable);
+    Page<ProductDto> getByBrand(Long brandId, Pageable pageable);
 
-    List<ProductDto> getProductsByCategoryIdForPageWithLimit(Long categoryId, int page, int pageSize);
+    ProductDto update(Long id, ProductDto dto);
+    void delete(Long id);
 
-    int getNumberOfPagesForCategory(Long categoryId, int pageSize);
-
-    int getNumberOfPagesForSearch(String searchQuery, int pageSize);
-
-    List<ProductDto> getProductsLikeNameForPageWithLimit(String searchQuery, int page, int pageSize);
-
-    ProductDto getProductById(Long id);
-
-    ProductDto getProductByGuid(UUID guid);
-
-    List<ProductDto> findBySubcategoryId(Long subcategoryId);
-
-    List<ProductDto> findByBrandId(Long brandId);
+    boolean existsByName(String name);
+    boolean existsByGuid(UUID guid);
 }

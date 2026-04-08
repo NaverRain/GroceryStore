@@ -8,7 +8,6 @@ import com.naverrain.grocery.persistence.entity.user.User;
 import com.naverrain.grocery.persistence.repository.user.RoleRepository;
 import com.naverrain.grocery.persistence.repository.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,16 +53,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Optional<UserDto> getUserByUsernameOrEmail(String usernameOrEmail) {
-        Optional<UserDto> userDto = getUserByEmail(usernameOrEmail);
-        if (!userDto.isPresent()) {
-            userDto = getUserByUsername(usernameOrEmail);
+        Optional<User> found = userRepository.findByEmailWithRolesAndPrivileges(usernameOrEmail);
+        if (found.isEmpty()) {
+            found = userRepository.findByUsernameWithRolesAndPrivileges(usernameOrEmail);
         }
-
-        userDto.ifPresent(user -> Hibernate.initialize(user.getRoles()));
-
-        return userDto;
+        return found.map(userMapper::toDto);
     }
 
     @Override
@@ -85,7 +80,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         List<Role> roles = roleRepository.findAllById(roleIds);
-        user.getRoles().addAll(roles);
+        for (Role role : roles) {
+            user.addRole(role);
+        }
 
         return userMapper.toDto(userRepository.save(user));
     }

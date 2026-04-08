@@ -1,11 +1,12 @@
 package com.naverrain.grocery.core.dto.user;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class RoleDto {
     private Long id;
     private String name;
-    private Set<PrivilegeDto> privileges;
+    private Set<PrivilegeDto> privileges = new HashSet<>();
 
     public Long getId() {
         return id;

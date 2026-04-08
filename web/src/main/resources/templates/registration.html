@@ -1,115 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, follow">
-  <title>Sign Up</title>
-  <!-- CSS Dependencies -->
-  <div th:replace="~{fragments/login-css-imports.html}"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
+    <title>Register - Grocery Store</title>
+    <!-- Use main CSS imports to match site style -->
+    <div th:replace="~{fragments/homepage-css-imports.html}"></div>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div class="limiter">
-  <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
-    <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-      <form class="login100-form validate-form" th:action="@{/registration}" th:object="${userDto}" method="post">
-					<span class="login100-form-title p-b-49">
-						Login
-					</span>
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Register</h2>
+        <form th:action="@{/registration}" th:object="${userDto}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" th:field="*{firstName}" class="form-control" placeholder="Enter your first name" required>
+                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('firstName')} ? 'has-error'">
-          <span class="label-input100">First Name</span>
-          <input class="input100" type="text" th:field="*{firstName}" placeholder="Type your first name">
-          <span th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')}"></span>
-        </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" th:field="*{lastName}" class="form-control" placeholder="Enter your last name" required>
+                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('lastName')} ? 'has-error'">
-          <span class="label-input100">Last Name</span>
-          <input class="input100" type="text" th:field="*{lastName}" placeholder="Type your last name">
-          <span th:if="${#fields.hasErrors('lastName')}" th:text="${#fields.errors('lastName')}"></span>
-        </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Enter your email" required>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
-          <span class="label-input100">Email</span>
-          <input class="input100" type="email" th:field="*{email}" placeholder="Type your email">
-          <span th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')}"></span>
-        </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="Choose a username" required>
+                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('username')} ? 'has-error'">
-          <span class="label-input100">Username</span>
-          <input class="input100" type="text" th:field="*{username}" placeholder="Type your username">
-          <span th:if="${#fields.hasErrors('username')}" th:text="${#fields.errors('username')}"></span>
-        </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Enter your password" required>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
-          <span class="label-input100">Password</span>
-          <input class="input100" type="password" th:field="*{password}" placeholder="Type your password">
-          <span th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}"></span>
-        </div>
+            <div class="form-group">
+                <label for="repeatPassword">Confirm Password</label>
+                <input type="password" id="repeatPassword" th:field="*{repeatPassword}" class="form-control" placeholder="Confirm your password" required>
+                <div th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}" class="text-danger"></div>
+            </div>
 
-        <div class="wrap-input100 validate-input m-b-23" th:classappend="${#fields.hasErrors('repeatPassword')} ? 'has-error'">
-          <span class="label-input100">Repeat password</span>
-          <input class="input100" type="password" th:field="*{repeatPassword}" placeholder="Type your password">
-          <span th:if="${#fields.hasErrors('repeatPassword')}" th:text="${#fields.errors('repeatPassword')}"></span>
-        </div>
+            <button type="submit" class="btn-auth">Register</button>
 
-        <div class="text-right p-t-8 p-b-31">
-          <a href="#">
-            Forgot password?
-          </a>
-        </div>
+            <div class="auth-footer-text">
+                <span>Or Register Using</span>
+            </div>
 
-        <div class="container-login100-form-btn">
-          <div class="wrap-login100-form-btn">
-            <div class="login100-form-bgbtn"></div>
-            <button class="login100-form-btn">
-              Login
-            </button>
-          </div>
-        </div>
+            <div class="social-login">
+                <a th:href="@{/oauth2/authorization/facebook}" class="social-item bg-fb">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a th:href="@{/oauth2/authorization/microsoft}" class="social-item bg-ms">
+                    <i class="fab fa-windows"></i>
+                </a>
+                <a th:href="@{/oauth2/authorization/google}" class="social-item bg-go">
+                    <i class="fab fa-google"></i>
+                </a>
+            </div>
 
-        <div class="txt1 text-center p-t-54 p-b-20">
-						<span>
-							Or Sign Up Using
-						</span>
-        </div>
-
-        <div class="flex-c-m">
-          <a th:href="@{/oauth2/authorization/facebook}" class="login100-social-item bg1">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-
-          <a th:href="@{/oauth2/authorization/microsoft}" class="login100-social-item bg2">
-            <i class="fab fa-windows"></i>
-          </a>
-
-          <a th:href="@{/oauth2/authorization/google}" class="login100-social-item bg3">
-            <i class="fab fa-google"></i>
-          </a>
-        </div>
-
-        <div class="flex-col-c p-t-155">
-						<span class="txt1 p-b-17">
-							Or Log In Using
-						</span>
-
-          <a href="{/login}" class="txt2">
-            Log In
-          </a>
-        </div>
-      </form>
+            <div class="auth-footer-text mt-4">
+                <span>Already have an account?</span>
+                <a th:href="@{/login}">Log In</a>
+            </div>
+        </form>
     </div>
-  </div>
 </div>
 
-
-<div id="dropDownSelect1"></div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-<!-- JS Dependencies -->
-<div th:replace="~{fragments/login-js-imports.html}"></div>
 </body>
 </html>

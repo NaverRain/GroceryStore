@@ -4,6 +4,7 @@ import com.naverrain.grocery.core.dto.user.RoleDto;
 import com.naverrain.grocery.persistence.entity.user.Role;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,11 +21,15 @@ public class RoleMapper {
         Role role = new Role();
         role.setId(dto.getId());
         role.setName(dto.getName());
-        role.setPrivileges(
-                dto.getPrivileges().stream()
-                        .map(privilegeMapper::toEntity)
-                        .collect(Collectors.toSet())
-        );
+        if (dto.getPrivileges() == null || dto.getPrivileges().isEmpty()) {
+            role.setPrivileges(new HashSet<>());
+        } else {
+            role.setPrivileges(
+                    dto.getPrivileges().stream()
+                            .map(privilegeMapper::toEntity)
+                            .collect(Collectors.toSet())
+            );
+        }
         return role;
     }
 
@@ -34,7 +39,8 @@ public class RoleMapper {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setPrivileges(
-                entity.getPrivileges().stream()
+                entity.getPrivileges() == null ? new HashSet<>()
+                        : entity.getPrivileges().stream()
                         .map(privilegeMapper::toDto)
                         .collect(Collectors.toSet())
         );

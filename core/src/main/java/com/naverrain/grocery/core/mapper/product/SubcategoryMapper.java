@@ -3,36 +3,27 @@ package com.naverrain.grocery.core.mapper.product;
 import com.naverrain.grocery.core.dto.product.SubcategoryDto;
 import com.naverrain.grocery.persistence.entity.product.Category;
 import com.naverrain.grocery.persistence.entity.product.Subcategory;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Component
-public class SubcategoryMapper {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface SubcategoryMapper {
 
-    public SubcategoryDto toDto(Subcategory subcategory) {
-        if (subcategory == null) {
-            return null;
-        }
-        SubcategoryDto dto = new SubcategoryDto();
-        dto.setId(subcategory.getId());
-        dto.setName(subcategory.getName());
-        dto.setDescription(subcategory.getDescription());
-        dto.setCategoryId(subcategory.getCategory().getId());
-        return dto;
-    }
+    @Mapping(source = "category.id", target = "categoryId")
+    SubcategoryDto toDto(Subcategory entity);
 
-    public Subcategory toEntity(SubcategoryDto dto) {
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "products", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    Subcategory toEntity(SubcategoryDto dto);
+
+    default Subcategory toEntity(SubcategoryDto dto, Category category) {
         if (dto == null) {
             return null;
         }
-        Subcategory subcategory = new Subcategory();
-        subcategory.setId(dto.getId());
-        subcategory.setName(dto.getName());
-        subcategory.setDescription(dto.getDescription());
-
-        Category category = new Category();
-        category.setId(dto.getCategoryId());
-        subcategory.setCategory(category);
-
-        return subcategory;
+        Subcategory entity = toEntity(dto);
+        entity.setCategory(category);
+        return entity;
     }
 }

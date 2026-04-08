@@ -17,7 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/", "/login", "/category-list", "/product/**", "/product", "/category", "/category/**","/registration", "/css/**", "/js/**", "/assets/**", "/fonts/**", "/images/**", "/vendor/**"
+            "/", "/login", "/registration",
+            "/products", "/products/**",
+            "/categories", "/categories/**",
+            "/subcategories", "/subcategories/**",
+            "/brands", "/brands/**",
+            "/css/**", "/js/**", "/assets/**", "/fonts/**", "/images/**", "/vendor/**"
     };
 
     private static final String[] AUTHENTICATED_MATCHERS = {

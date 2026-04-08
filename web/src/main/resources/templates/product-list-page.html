@@ -10,27 +10,104 @@
 
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container mt-4">
-    <h2 class="text-center">Products</h2>
 
-    <!-- Product Grid -->
-    <div class="row">
-        <div class="col-md-4 mb-4" th:each="product : ${products}">
-            <div class="card">
-                <img th:src="${product.imageUrl}" class="card-img-top" th:alt="${product.name}">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}"></h5>
-                    <p class="card-text" th:text="${product.description}"></p>
-                    <p class="card-text fw-bold" th:text="'Price: $' + ${product.price}"></p>
-                    <a th:href="@{/product/{guid}(guid=${product.guid})}" class="btn btn-primary">View Details</a>
-                </div>
+    <!-- Sorting Row -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-end align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span id="currentSortText">Sort By: Relevance</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                    <li><a class="dropdown-item sort-option" href="#" data-sort="id,asc">Relevance</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item sort-option" href="#" data-sort="price,asc">Price: Low to High</a></li>
+                    <li><a class="dropdown-item sort-option" href="#" data-sort="price,desc">Price: High to Low</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item sort-option" href="#" data-sort="name,asc">Name: A-Z</a></li>
+                    <li><a class="dropdown-item sort-option" href="#" data-sort="name,desc">Name: Z-A</a></li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <!-- Pagination -->
-    <div th:replace="fragments/pagination :: pagination"></div>
+    <div class="row">
+
+        <!-- Sidebar layout -->
+        <aside class="col-lg-3 col-md-4 mb-4">
+            <div class="sidebar-wrapper sticky-top" style="top: 20px; z-index: 1000;">
+                
+                <!-- Category Heading & Count -->
+                <div class="list-heading mb-4">
+                    <h1 class="list-name d-inline-block h4 fw-bold mb-0">Products</h1>
+                    <span class="offers-counter text-muted ms-1" th:text="'(' + ${products.totalElements} + ')'">(0)</span>
+                </div>
+
+                <div class="filters-container">
+                    <!-- Clear Filters Button -->
+                    <div class="mb-3">
+                        <a th:href="@{/products}" class="btn btn-outline-secondary btn-sm w-100 py-2 shadow-none border-dashed">
+                            Clear all filters
+                        </a>
+                    </div>
+
+                    <!-- Filter Title -->
+                    <div class="filter-header mb-3">
+                        <p class="text-uppercase fw-bold small tracking-wider mb-0">PRICE</p>
+                    </div>
+
+                    <!-- Price Input Group -->
+                    <div class="price-filter-box">
+                        <div class="price-inputs-row mb-3">
+                            <div class="price-input-container">
+                                <label class="small text-muted mb-1 d-block">from ($)</label>
+                                <input type="number" id="minPriceInput" class="form-control form-control-sm text-center" placeholder="min" min="0">
+                            </div>
+                            <span class="price-separator mt-4 mx-2 text-muted">-</span>
+                            <div class="price-input-container">
+                                <label class="small text-muted mb-1 d-block">to ($)</label>
+                                <input type="number" id="maxPriceInput" class="form-control form-control-sm text-center" placeholder="max" min="0">
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-sm btn-primary w-100 fw-bold" id="applyFilter">
+                            APPLY
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content: Product Grid -->
+        <main class="col-lg-9 col-md-8">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products.content}">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img th:src="${product.imageUrl}" class="product-card-img rounded-top" th:alt="${product.name}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold" th:text="${product.name}">Product Name</h5>
+                            <p class="card-text text-truncate mb-2" th:text="${product.description}">Product description...</p>
+                            <p class="card-text fw-bold mt-auto mb-3" th:text="'Price: $' + ${product.price}">Price: $0.00</p>
+                            <div class="mt-auto">
+                                <a th:href="@{/products/{guid}(guid=${product.guid})}" class="btn btn-outline-dark btn-sm w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div th:if="${products.totalPages > 1}" class="d-flex justify-content-center mt-4">
+                <div th:replace="~{fragments/pagination :: pagination(${basePath})}"></div>
+            </div>
+        </main>
+    </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 <div th:replace="~{fragments/homepage-js-imports.html}"></div>
+
+<script th:src="@{/js/price-filter.js}"></script>
+
 </body>
 </html>
